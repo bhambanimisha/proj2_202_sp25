@@ -53,12 +53,14 @@ def read_csv_lines(filename: str) -> Optional[Node]:
     # Parameters: filename: str - the name of the CSV file to read
     # Returns: Optional[Node] - a linked list of Row objects representing the data in the file, or None if the file cannot be read
     try:
-        with open(filename, 'r') as f:
-            reader = csv.reader(f)
-            next(reader)  # skip header
-            head = None
+        with open(filename, 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            topline = next(reader)  # skip header
+            #if not (topline == expected_labels):
+            #    raise ValueError("unexpected first line: got : {}".format(topline))
+            head: Optional[Node] = None
             for line in reader:
-                row = parse_row(line)
+                row: Row = parse_row(line)
                 head = Node(value=row, next=head)
             return head
     except Exception as e:
