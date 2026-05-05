@@ -14,12 +14,12 @@ sys.setrecursionlimit(10_000)
 class Row:
     country: str
     year: int
-    electricity_and_heat_co2_emissions: float
-    electricity_and_heat_co2_emissions_per_capita: float
-    energy_co2_emissions: float
-    energy_co2_emissions_per_capita: float
-    total_co2_emissions_excluding_lucf: float
-    total_co2_emissions_excluding_lucf_per_capita: float
+    electricity_and_heat_co2_emissions: float | None
+    electricity_and_heat_co2_emissions_per_capita: float | None
+    energy_co2_emissions: float | None
+    energy_co2_emissions_per_capita: float | None
+    total_co2_emissions_excluding_lucf: float | None
+    total_co2_emissions_excluding_lucf_per_capita: float | None
 
 @dataclass(frozen=True)
 class Node:
@@ -29,6 +29,18 @@ class Node:
 # ...
 
 # Then your functions.
+
+def floatCheck(val: str) -> Optional[float]:
+    # Purpose: Converts a string to a float, returning None if the string is empty or cannot be converted.
+    #
+    # Parameters: val: str - the string to convert to a float
+    # Returns: Optional[float] - the float value of the string, or None if the string is empty or cannot be converted
+    if val == "":
+        return None
+    try:
+        return float(val)
+    except ValueError:
+        return None
     
 def parse_row(fields: list[str]) -> Row:
     # Purpose: Parses a list of strings representing the fields of a CSV row and returns a Row object.
@@ -38,12 +50,12 @@ def parse_row(fields: list[str]) -> Row:
     return Row(
         country=fields[0],
         year=int(fields[1]),
-        electricity_and_heat_co2_emissions=float(fields[2]),
-        electricity_and_heat_co2_emissions_per_capita=float(fields[3]),
-        energy_co2_emissions=float(fields[4]),
-        energy_co2_emissions_per_capita=float(fields[5]),
-        total_co2_emissions_excluding_lucf=float(fields[6]),
-        total_co2_emissions_excluding_lucf_per_capita=float(fields[7])
+        electricity_and_heat_co2_emissions=floatCheck(fields[2]),
+        electricity_and_heat_co2_emissions_per_capita=floatCheck(fields[3]),
+        energy_co2_emissions=floatCheck(fields[4]),
+        energy_co2_emissions_per_capita=floatCheck(fields[5]),
+        total_co2_emissions_excluding_lucf=floatCheck(fields[6]),
+        total_co2_emissions_excluding_lucf_per_capita=floatCheck(fields[7])
     )
 
 def read_csv_lines(filename: str) -> Optional[Node]:

@@ -79,7 +79,7 @@ class TestFunctions(unittest.TestCase):
     def test_filter_rows_returns_node_or_none(self):
         r1 = Row("Belarus", 2016, 30.79, 3.1715748, 53.0, 5.4593525, 55.2, 5.685967)
         lst = Node(r1, None)
-        r2 = Row("Liechtenstein",1999,None,None,0.23,7.0467844,0.23,7.0467844)
+        r2 = Row("Liechtenstein",1999,"","",0.23,7.0467844,0.23,7.0467844)
         result = filter_rows(lst, "country", "equal", "Belarus")
         self.assertTrue(result is None or isinstance(result, Node))
         result = filter_rows(lst, "electricity_and_heat_co2_emissions", "equal", None)
